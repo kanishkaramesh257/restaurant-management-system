@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN PAGE
+     ===================================================== -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-container">
+
+        <!-- LEFT SIDE -->
+        <div class="login-brand">
+
+            <div class="logo-circle">
+                🍽️
+            </div>
+
+            <h1>
+                Restaurant<br>
+                Management
+            </h1>
+
+            <p>
+                Manage restaurants, menus, customers,
+                staff and orders from one place.
+            </p>
+
+            <ul class="feature-list">
+
+                <li>
+                    Restaurant management
+                </li>
+
+                <li>
+                    Menu and order management
+                </li>
+
+                <li>
+                    Customer and staff management
+                </li>
+
+                <li>
+                    Sales and SQL reports
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="login-form-container">
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="login-subtitle">
+                Select your account type and enter your ID
+            </p>
+
+
+            <!-- ROLE SELECTION -->
+
+            <div class="role-selector">
+
+                <button
+                    type="button"
+                    class="role-button active"
+                    data-role="customer"
+                    onclick="selectRole('customer')">
+
+                    Customer
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="role-button"
+                    data-role="staff"
+                    onclick="selectRole('staff')">
+
+                    Staff
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="role-button"
+                    data-role="admin"
+                    onclick="selectRole('admin')">
+
+                    Admin
+
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label id="idLabel">
+                        Customer ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="userId"
+                        placeholder="Enter customer ID"
+                        autocomplete="off"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    Login
+
+                </button>
+
+
+                <div
+                    id="loginMessage"
+                    class="login-message">
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CUSTOMER APPLICATION
+     ===================================================== -->
+
+<div id="customerApp" class="app hidden">
+
+
+    <!-- HEADER -->
+
+    <header class="app-header">
+
+        <div class="app-logo">
+
+            <div class="app-logo-icon">
+                🍴
+            </div>
+
+            <h2>
+                Restaurant Management
+            </h2>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <span
+                id="customerUserBadge"
+                class="user-badge">
+                Customer
+            </span>
+
+            <button
+                class="logout-button"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <div class="app-body">
+
+
+        <!-- CUSTOMER SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Customer
+            </div>
+
+
+            <ul class="sidebar-menu">
+
+                <li>
+                    <button
+                        class="active"
+                        onclick="showCustomerSection('customerHomeSection')">
+
+                        🏠 Dashboard
+
+                    </button>
+                </li>
+
+
+                <li>
+                    <button
+                        onclick="showCustomerSection('customerRestaurantsSection')">
+
+                        🍽️ Restaurants
+
+                    </button>
+                </li>
+
+
+                <li>
+                    <button
+                        onclick="showCustomerSection('customerMenuSection')">
+
+                        📋 Menu
+
+                    </button>
+                </li>
+
+
+                <li>
+                    <button
+                        onclick="showCustomerSection('customerCartSection')">
+
+                        🛒 Cart
+
+                    </button>
+                </li>
+
+
+                <li>
+                    <button
+                        onclick="showCustomerSection('customerOrdersSection')">
+
+                        📦 My Orders
+
+                    </button>
+                </li>
+
+
+                <li>
+                    <button
+                        onclick="showCustomerSection('customerProfileSection')">
+
+                        👤 Profile
+
+                    </button>
+                </li>
+
+            </ul>
+
+        </aside>
+
+
+
+        <!-- CUSTOMER MAIN CONTENT -->
+
+        <main class="main-content">
+
+
+            <!-- CUSTOMER DASHBOARD -->
+
+            <section
+                id="customerHomeSection"
+                class="page-section">
+
+                <h1 class="page-title">
+                    Welcome to your dashboard
+                </h1>
+
+                <p class="page-description">
+                    Browse restaurants, explore menus and
+                    manage your orders.
+                </p>
+
+
+                <div class="dashboard-grid">
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            🍽️
+                        </div>
+
+                        <div class="card-label">
+                            Restaurants
+                        </div>
+
+                        <div
+                            id="customerRestaurantCount"
+                            class="card-value">
+
+                            0
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            📦
+                        </div>
+
+                        <div class="card-label">
+                            My Orders
+                        </div>
+
+                        <div
+                            id="customerOrderCount"
+                            class="card-value">
+
+                            0
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            🛒
+                        </div>
+
+                        <div class="card-label">
+                            Cart Items
+                        </div>
+
+                        <div
+                            id="customerCartCount"
+                            class="card-value">
+
+                            0
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            ₹
+                        </div>
+
+                        <div class="card-label">
+                            Cart Total
+                        </div>
+
+                        <div
+                            id="customerCartTotal"
+                            class="card-value">
+
+                            ₹0
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-card">
+
+                    <h3>
+                        Start Ordering
+                    </h3>
+
+                    <p class="page-description">
+                        Select a restaurant and browse
+                        its available menu items.
+                    </p>
+
+                    <button
+                        class="primary-button"
+                        onclick="showCustomerSection('customerRestaurantsSection')">
+
+                        Browse Restaurants
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- RESTAURANTS -->
+
+            <section
+                id="customerRestaurantsSection"
+                class="page-section hidden">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h1 class="page-title">
+                            Restaurants
+                        </h1>
+
+                        <p class="page-description">
+                            Choose a restaurant to view its menu.
+                        </p>
+
+                    </div>
+
+                    <input
+                        id="restaurantSearch"
+                        class="search-box"
+                        type="text"
+                        placeholder="Search restaurant or city..."
+                        oninput="filterRestaurants()">
+
+                </div>
+
+
+                <div
+                    id="restaurantGrid"
+                    class="restaurant-grid">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- MENU -->
+
+            <section
+                id="customerMenuSection"
+                class="page-section hidden">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h1 class="page-title">
+                            Menu
+                        </h1>
+
+                        <p
+                            id="selectedRestaurantName"
+                            class="page-description">
+
+                            Select items from the menu.
+
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="secondary-button"
+                        onclick="backToRestaurants()">
+
+                        ← Back to Restaurants
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="menuGrid"
+                    class="menu-grid">
+
+                </div>
+
+            </section>
+
+
+
+            <!-- CART -->
+
+            <section
+                id="customerCartSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Your Cart
+                </h1>
+
+                <p class="page-description">
+                    Review your selected items before placing
+                    your order.
+                </p>
+
+
+                <div class="cart-container">
+
+
+                    <div
+                        id="cartItems"
+                        class="cart-items">
+
+                    </div>
+
+
+                    <div class="cart-summary">
+
+                        <h3>
+                            Order Summary
+                        </h3>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Items
+                            </span>
+
+                            <span
+                                id="cartItemCount">
+                                0
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="summary-row summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <span id="cartTotal">
+                                ₹0.00
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            class="primary-button"
+                            onclick="placeOrder()"
+                            style="width:100%; margin-top:15px;">
+
+                            Place Order
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- CUSTOMER ORDERS -->
+
+            <section
+                id="customerOrdersSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    My Orders
+                </h1>
+
+                <p class="page-description">
+                    View your previous orders.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                                <th>
+                                    Order Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="customerOrdersTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- CUSTOMER PROFILE -->
+
+            <section
+                id="customerProfileSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    My Profile
+                </h1>
+
+                <p class="page-description">
+                    Your customer information.
+                </p>
+
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+                        👤
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Customer ID
+                        </span>
+
+                        <span
+                            id="customerProfileId"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Name
+                        </span>
+
+                        <span
+                            id="customerProfileName"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Phone
+                        </span>
+
+                        <span
+                            id="customerProfilePhone"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     STAFF APPLICATION
+     ===================================================== -->
+
+<div id="staffApp" class="app hidden">
+
+
+    <!-- HEADER -->
+
+    <header class="app-header">
+
+        <div class="app-logo">
+
+            <div class="app-logo-icon">
+                👨‍🍳
+            </div>
+
+            <h2>
+                Restaurant Management
+            </h2>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <span
+                id="staffUserBadge"
+                class="user-badge">
+                Staff
+            </span>
+
+            <button
+                class="logout-button"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <div class="app-body">
+
+
+        <!-- STAFF SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Staff Panel
+            </div>
+
+
+            <ul class="sidebar-menu">
+
+                <li>
+
+                    <button
+                        class="active"
+                        onclick="showStaffSection('staffDashboardSection')">
+
+                        📊 Dashboard
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showStaffSection('staffNewOrdersSection')">
+
+                        🆕 Orders
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showStaffSection('staffPreparingSection')">
+
+                        👨‍🍳 Preparing
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showStaffSection('staffCompletedSection')">
+
+                        ✅ Completed
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showStaffSection('staffProfileSection')">
+
+                        👤 Profile
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </aside>
+
+
+
+        <!-- STAFF MAIN -->
+
+        <main class="main-content">
+
+
+            <!-- STAFF DASHBOARD -->
+
+            <section
+                id="staffDashboardSection"
+                class="page-section">
+
+                <h1 class="page-title">
+                    Staff Dashboard
+                </h1>
+
+                <p class="page-description">
+                    Manage restaurant orders and view
+                    customer order information.
+                </p>
+
+
+                <div class="dashboard-grid">
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            📦
+                        </div>
+
+                        <div class="card-label">
+                            Total Orders
+                        </div>
+
+                        <div
+                            id="staffTotalOrders"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            🆕
+                        </div>
+
+                        <div class="card-label">
+                            New Orders
+                        </div>
+
+                        <div
+                            id="staffNewOrders"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            👨‍🍳
+                        </div>
+
+                        <div class="card-label">
+                            Preparing
+                        </div>
+
+                        <div
+                            id="staffPreparingOrders"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            ✅
+                        </div>
+
+                        <div class="card-label">
+                            Completed
+                        </div>
+
+                        <div
+                            id="staffCompletedOrders"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-card">
+
+                    <h3>
+                        Order Management
+                    </h3>
+
+                    <p class="page-description">
+                        View orders associated with your
+                        restaurant.
+                    </p>
+
+                    <button
+                        class="primary-button"
+                        onclick="showStaffSection('staffNewOrdersSection')">
+
+                        View Orders
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- STAFF NEW ORDERS -->
+
+            <section
+                id="staffNewOrdersSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Orders
+                </h1>
+
+                <p class="page-description">
+                    View customer orders and order details.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="staffNewOrdersTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- STAFF PREPARING -->
+
+            <section
+                id="staffPreparingSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Preparing Orders
+                </h1>
+
+                <p class="page-description">
+                    Orders currently being prepared.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="staffPreparingTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- STAFF COMPLETED -->
+
+            <section
+                id="staffCompletedSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Completed Orders
+                </h1>
+
+                <p class="page-description">
+                    Orders that have been completed.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="staffCompletedTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- STAFF PROFILE -->
+
+            <section
+                id="staffProfileSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Staff Profile
+                </h1>
+
+                <p class="page-description">
+                    Your staff information.
+                </p>
+
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+                        👨‍🍳
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Staff ID
+                        </span>
+
+                        <span
+                            id="staffProfileId"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Name
+                        </span>
+
+                        <span
+                            id="staffProfileName"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Role
+                        </span>
+
+                        <span
+                            id="staffProfileRole"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Restaurant
+                        </span>
+
+                        <span
+                            id="staffProfileRestaurant"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADMIN APPLICATION
+     ===================================================== -->
+
+<div id="adminApp" class="app hidden">
+
+
+    <!-- HEADER -->
+
+    <header class="app-header">
+
+        <div class="app-logo">
+
+            <div class="app-logo-icon">
+                📊
+            </div>
+
+            <h2>
+                Restaurant Management
+            </h2>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <span
+                id="adminUserBadge"
+                class="user-badge">
+                Administrator
+            </span>
+
+            <button
+                class="logout-button"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <div class="app-body">
+
+
+        <!-- ADMIN SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Administration
+            </div>
+
+
+            <ul class="sidebar-menu">
+
+                <li>
+
+                    <button
+                        class="active"
+                        onclick="showAdminSection('adminDashboardSection')">
+
+                        📊 Dashboard
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showAdminSection('adminRestaurantsSection')">
+
+                        🏪 Restaurants
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showAdminSection('adminMenuSection')">
+
+                        🍴 Menu Items
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showAdminSection('adminCustomersSection')">
+
+                        👥 Customers
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showAdminSection('adminStaffSection')">
+
+                        👨‍🍳 Staff
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showAdminSection('adminOrdersSection')">
+
+                        📦 Orders
+
+                    </button>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        onclick="showAdminSection('adminReportsSection')">
+
+                        📈 Reports
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </aside>
+
+
+
+        <!-- ADMIN MAIN -->
+
+        <main class="main-content">
+
+
+            <!-- ADMIN DASHBOARD -->
+
+            <section
+                id="adminDashboardSection"
+                class="page-section">
+
+                <h1 class="page-title">
+                    Admin Dashboard
+                </h1>
+
+                <p class="page-description">
+                    Overview of the restaurant management
+                    system.
+                </p>
+
+
+                <div class="dashboard-grid">
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            🏪
+                        </div>
+
+                        <div class="card-label">
+                            Restaurants
+                        </div>
+
+                        <div
+                            id="adminRestaurantCount"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            🍴
+                        </div>
+
+                        <div class="card-label">
+                            Menu Items
+                        </div>
+
+                        <div
+                            id="adminMenuCount"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            👥
+                        </div>
+
+                        <div class="card-label">
+                            Customers
+                        </div>
+
+                        <div
+                            id="adminCustomerCount"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            👨‍🍳
+                        </div>
+
+                        <div class="card-label">
+                            Staff
+                        </div>
+
+                        <div
+                            id="adminStaffCount"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-icon">
+                            📦
+                        </div>
+
+                        <div class="card-label">
+                            Orders
+                        </div>
+
+                        <div
+                            id="adminOrderCount"
+                            class="card-value">
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-card">
+
+                    <h3>
+                        System Overview
+                    </h3>
+
+                    <p>
+                        Use the navigation menu to manage
+                        restaurants, menu items, customers,
+                        staff and orders.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADMIN RESTAURANTS -->
+
+            <section
+                id="adminRestaurantsSection"
+                class="page-section hidden">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h1 class="page-title">
+                            Restaurants
+                        </h1>
+
+                        <p class="page-description">
+                            Manage restaurants in the system.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="primary-button"
+                        onclick="showRestaurantForm()">
+
+                        + Add Restaurant
+
+                    </button>
+
+                </div>
+
+
+                <!-- ADD RESTAURANT FORM -->
+
+                <div
+                    id="restaurantForm"
+                    class="form-card hidden">
+
+                    <h3>
+                        Add Restaurant
+                    </h3>
+
+                    <br>
+
+
+                    <form
+                        onsubmit="addRestaurant(event)">
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Restaurant ID
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="restaurantIdInput"
+                                    required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Restaurant Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="restaurantNameInput"
+                                    required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    City
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="restaurantCityInput"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="submit"
+                                class="primary-button">
+
+                                Save Restaurant
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                onclick="showRestaurantForm()">
+
+                                Cancel
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Restaurant ID
+                                </th>
+
+                                <th>
+                                    Restaurant Name
+                                </th>
+
+                                <th>
+                                    City
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="adminRestaurantsTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADMIN MENU -->
+
+            <section
+                id="adminMenuSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Menu Items
+                </h1>
+
+                <p class="page-description">
+                    Manage menu items and prices.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Item ID
+                                </th>
+
+                                <th>
+                                    Item Name
+                                </th>
+
+                                <th>
+                                    Price
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="adminMenuTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADMIN CUSTOMERS -->
+
+            <section
+                id="adminCustomersSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Customers
+                </h1>
+
+                <p class="page-description">
+                    View and manage customer information.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Customer ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="adminCustomersTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADMIN STAFF -->
+
+            <section
+                id="adminStaffSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Staff
+                </h1>
+
+                <p class="page-description">
+                    View staff members and their restaurant
+                    assignments.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Staff ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Role
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="adminStaffTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADMIN ORDERS -->
+
+            <section
+                id="adminOrdersSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Orders
+                </h1>
+
+                <p class="page-description">
+                    View all orders placed in the system.
+                </p>
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Restaurant
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="adminOrdersTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ADMIN REPORTS -->
+
+            <section
+                id="adminReportsSection"
+                class="page-section hidden">
+
+                <h1 class="page-title">
+                    Reports & Analytics
+                </h1>
+
+                <p class="page-description">
+                    Reports generated from the SQL queries
+                    in your restaurant management project.
+                </p>
+
+
+                <div class="report-grid">
+
+
+                    <!-- RESTAURANT MENU JOIN -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Restaurant Menu
+                        </h3>
+
+                        <p>
+                            Restaurant + menu item JOIN
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadRestaurantMenuReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="restaurantMenuReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CUSTOMER ORDERS JOIN -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Customer Orders
+                        </h3>
+
+                        <p>
+                            Customer + order JOIN
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadCustomerOrderReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="customerOrderReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RESTAURANT SALES -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Restaurant Sales
+                        </h3>
+
+                        <p>
+                            Total sales grouped by restaurant
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadRestaurantSalesReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="restaurantSalesReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RESTAURANT STATISTICS -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Restaurant Statistics
+                        </h3>
+
+                        <p>
+                            Item count, average, minimum
+                            and maximum prices
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadRestaurantStatisticsReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="restaurantStatisticsReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- POPULAR ITEMS -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Popular Menu Items
+                        </h3>
+
+                        <p>
+                            Items ordered most frequently
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadPopularItemsReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="popularItemsReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ABOVE AVERAGE -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Above Average Items
+                        </h3>
+
+                        <p>
+                            Menu items priced above
+                            the overall average
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadAboveAverageReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="aboveAverageReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- MOST EXPENSIVE -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Most Expensive Item
+                        </h3>
+
+                        <p>
+                            Item with the maximum menu price
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadMostExpensiveReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="mostExpensiveReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ORDER TOTALS -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Order Totals
+                        </h3>
+
+                        <p>
+                            Customer, restaurant and
+                            calculated order amount
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadOrderTotalsReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="orderTotalsReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CUSTOMER SPENDING -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Customer Spending
+                        </h3>
+
+                        <p>
+                            Total amount spent by customers
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadCustomerSpendingReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="customerSpendingReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ITEM SALES SUMMARY -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Item Sales Summary
+                        </h3>
+
+                        <p>
+                            Quantity, orders and revenue
+                            for each menu item
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadItemSalesReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="itemSalesReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ORDER DETAILS -->
+
+                    <div class="report-card">
+
+                        <h3>
+                            Order Details
+                        </h3>
+
+                        <p>
+                            Order + customer + restaurant
+                            JOIN
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            onclick="loadOrderDetailsReport()">
+
+                            Run Report
+
+                        </button>
+
+
+                        <div
+                            id="orderDetailsReportResult"
+                            class="report-result">
+
+                            Click "Run Report".
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
